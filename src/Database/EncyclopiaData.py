@@ -28,8 +28,6 @@ class EncyclopediaData:
         with self.connection:
             self.cursor.execute('SELECT * FROM WikiData')
             wikidata = self.cursor.fetchall()
-            for article in wikidata:
-                print article[0]
             return wikidata
 
     def getspecificwikiarticle(self, searchstring):
