@@ -5,6 +5,7 @@ from Tkinter import *
 from src.Logic.Wikipedia import *
 from src.Logic.Twitter import *
 from src.Database.EncyclopiaData import *
+from thread import *
 
 class Interface(Frame):
 
@@ -52,21 +53,11 @@ class Interface(Frame):
         self.wikitext.delete("1.0",END)
         self.twittertext.delete("1.0",END)
         self.searchquery = self.txtsearchquery.get()
-        WikiSearch = WikipediaSearch(self.DB,self.searchquery)
-        articles = None
-        if WikiSearch.getrelatedsavedresults() == []:
-            article = WikiSearch.createarticlefromfirstsearchresult()
-            WikiSearch.saveresult(article)
-            articles = [article]
-        else:
-            articles = WikiSearch.getrelatedsavedresults()
+        wikisearch = WikipediaSearch(self.DB,self.searchquery)
+        articles = wikisearch.searchorloadarticle()
         self.wikitext.insert(END,articles[0].displayarticle())
         twittersearch = TwitterSearch(self.DB,self.searchquery)
-        statuses = None
-        if twittersearch.getrelatedsavedtweets() == []:
-            statuses = twittersearch.dosearch()
-        else:
-            statuses = twittersearch.getrelatedsavedtweets()
+        statuses = twittersearch.searchorloadtweets()
         tweetsstring = ""
         for status in statuses:
             tweetsstring += (status.displaytweet()) + "\n"

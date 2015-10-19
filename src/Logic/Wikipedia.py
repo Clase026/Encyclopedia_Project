@@ -31,6 +31,16 @@ class WikipediaSearch:
             articles.append(article)
         return articles
 
+    def searchorloadarticle(self):
+        articles = None
+        if self.getrelatedsavedresults() == []:
+            article = self.createarticlefromfirstsearchresult()
+            self.saveresult(article)
+            articles = [article]
+        else:
+            articles = self.getrelatedsavedresults()
+        return articles
+
 class WikipediaArticle:
 
     def __init__(self, articletitle, articlesummary, searchstring):

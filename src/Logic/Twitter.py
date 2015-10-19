@@ -40,6 +40,13 @@ class TwitterSearch:
             tweets.append(tweet)
         return tweets
 
+    def searchorloadtweets(self):
+        tweets = None
+        if self.getrelatedsavedtweets() == []:
+            tweets = self.dosearch()
+        else:
+            tweets = self.getrelatedsavedtweets()
+        return tweets
 
 class TwitterStatus:
 
