@@ -6,7 +6,7 @@ from src.Logic.Imgur import *
 from src.Interface.Interface import *
 
 def main():
-
+    """Launches the interface, which does the rest of the work"""
     root = Tk()
     app = Interface(root)
     app.mainloop()

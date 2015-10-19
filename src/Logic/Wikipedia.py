@@ -11,6 +11,7 @@ class WikipediaSearch:
         self.searchstring = searchstring
 
     def createarticlefromfirstsearchresult(self):
+        """Takes the first search result for the searchstring, and returns a wikipediaarticle"""
         searchresults = wikipedia.search(self.searchstring)
         if searchresults != []:
             articletitle = searchresults[0].encode('ascii', 'ignore')
@@ -24,6 +25,7 @@ class WikipediaSearch:
         self.ED.insertwikidata(article.articletitle, article.articlesummary, article.searchstring)
 
     def getrelatedsavedresults(self):
+        """Gets saved wikipedia articles matching the search string"""
         savedresults = self.ED.getrelatedsavedwikiarticle(self.searchstring)
         articles = []
         for result in savedresults:
@@ -32,6 +34,7 @@ class WikipediaSearch:
         return articles
 
     def searchorloadarticle(self):
+        """Checks the database for related articles, and only hits the api if it doesn't find anything"""
         articles = None
         if self.getrelatedsavedresults() == []:
             article = self.createarticlefromfirstsearchresult()
@@ -42,7 +45,7 @@ class WikipediaSearch:
         return articles
 
 class WikipediaArticle:
-
+    """The summary, title, and string used to find a wikipedia article"""
     def __init__(self, articletitle, articlesummary, searchstring):
         self.articletitle = articletitle
         self.articlesummary = articlesummary

@@ -13,6 +13,7 @@ class TwitterSearch:
         self.api = tweepy.API(self.auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
     def setupauthentication(self):
+        """Only authenticates for an app, since it only searches for tweets"""
         config = ConfigParser.ConfigParser()
         config.read('config.ini')
         APIKey = config.get('TwitterKeys','APIKey')
@@ -21,6 +22,7 @@ class TwitterSearch:
         return auth
 
     def dosearch(self):
+        """Searches for tweets matching the searchstring"""
         tweets = []
         for status in self.api.search(q=self.searchstring, count=10):
             asciitweet = TwitterStatus(status.user.name.encode('ascii', 'ignore'), status.text.encode('ascii', 'ignore'),self.searchstring)
@@ -33,6 +35,7 @@ class TwitterSearch:
             self.EncyclopediaData.inserttwitterdata(tweet.username, tweet.text, tweet.searchstring)
 
     def getrelatedsavedtweets(self):
+        """Gets tweets matching the searchstring from the database"""
         savedtweets = self.EncyclopediaData.getsearchedtweets(self.searchstring)
         tweets = []
         for savedtweet in savedtweets:
@@ -41,6 +44,7 @@ class TwitterSearch:
         return tweets
 
     def searchorloadtweets(self):
+        """Gets data from the database matching the searchstring, and hits the API if it can't find anything"""
         tweets = None
         if self.getrelatedsavedtweets() == []:
             tweets = self.dosearch()
@@ -49,7 +53,7 @@ class TwitterSearch:
         return tweets
 
 class TwitterStatus:
-
+    """A single twitter status, containing the username, the tweet text, and the string used to find it"""
     def __init__(self, username, text, searchstring):
         self.searchstring = searchstring
         self.text = text

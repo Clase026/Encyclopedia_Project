@@ -8,7 +8,7 @@ from src.Database.EncyclopiaData import *
 from thread import *
 
 class Interface(Frame):
-
+    """A one screen Tkinter GUI used to interact with the encyclopedia"""
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.DB = EncyclopediaData()
@@ -39,9 +39,6 @@ class Interface(Frame):
         self.twitteryscroll = Scrollbar(self, orient=VERTICAL)
         self.twitteryscroll.grid(row=1,column=3)
         self.twitteryscroll.config(command=self.twittertext.yview)
-        #self.twitterxscroll = Scrollbar(self, orient=HORIZONTAL)
-        #self.twitterxscroll.grid(row=2,column=2)
-        #self.twitterxscroll.config(command=self.twittertext.xview)
         #add quit button
         self.btnQuit = Button(self)
         self.btnQuit["text"] = "QUIT"
@@ -50,6 +47,9 @@ class Interface(Frame):
         self.btnQuit.grid(row=2, column=0, sticky=W+S)
 
     def clickSearch(self):
+        """Does a wiki and twitter search for the user's input, and then outputs the data to the two textboxes.
+        Checks database first to see if there are any matching records before going to the APIs
+        """
         self.wikitext.delete("1.0",END)
         self.twittertext.delete("1.0",END)
         self.searchquery = self.txtsearchquery.get()
