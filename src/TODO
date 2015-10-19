@@ -1,0 +1,32 @@
+stuff to do:
+
+- formatting:
+    GUI
+    text boxes
+
+- dismbiguate wikipedia searches
+
+- **Get Pictures from Imgur**
+    maintain image size overall
+    list across, not down
+
+- Threading
+    images
+    text?
+        can't hurt
+
+- Content
+    Wikipedia information
+        expandable?
+
+- twitter
+    avoid retweets
+    remove usernames
+    set language/limit tweets
+
+- error messages
+    removal/try-except
+    Insecure platform warning
+
+- validation
+    ensure there is data to search.

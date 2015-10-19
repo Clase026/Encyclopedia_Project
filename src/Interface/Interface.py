@@ -25,7 +25,7 @@ class Interface(Frame):
         self.btnSearch.grid(row=0, column=1, sticky=W+S)
         #add wiki textbox
         self.wikitext = Text(self)
-        self.wikitext["height"] = 10
+        self.wikitext["height"] = 20
         self.wikitext["width"] = 50
         self.wikitext.grid(row=1, column=0)
         self.wikiscroll = Scrollbar(self, orient=VERTICAL)
@@ -33,7 +33,7 @@ class Interface(Frame):
         self.wikiscroll.config(command=self.wikitext.yview)
         #add twitter textbox
         self.twittertext = Text(self, wrap = NONE)
-        self.twittertext["height"] = 10
+        self.twittertext["height"] = 20
         self.twittertext["width"] = 100
         self.twittertext.grid(row=1,column=2)
         self.twitteryscroll = Scrollbar(self, orient=VERTICAL)
@@ -58,11 +58,11 @@ class Interface(Frame):
         self.wikitext.insert(END,articles[0].displayarticle())
         twittersearch = TwitterSearch(self.DB,self.searchquery)
         statuses = twittersearch.searchorloadtweets()
-        tweetsstring = ""
+        tweetsarray = []
         for status in statuses:
-            tweetsstring += (status.displaytweet()) + "\n"
-
-        self.twittertext.insert(END,tweetsstring)
-
+            tweetsarray.append((status.displaytweet()) + "\n")
+            tweetsarray.append("\n")
+        for i in tweetsarray:
+            self.twittertext.insert(END,i)
     def clickQuitApp(self):
         self.quit()
