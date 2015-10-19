@@ -22,7 +22,8 @@ lib64/
 parts/
 sdist/
 var/
-/src/Database/EncyclopediaData
+/src/EncyclopediaData
+/src/config.ini
 *.egg-info/
 .installed.cfg
 *.egg

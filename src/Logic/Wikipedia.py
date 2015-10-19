@@ -4,37 +4,41 @@ from src.Database.EncyclopiaData import *
 
 import wikipedia
 
-class Wikipedia:
+class WikipediaSearch:
 
-    def __init__(self):
-        self.ED = EncyclopediaData()
+    def __init__(self, EncyclopediaData, searchstring = 'Wikipedia'):
+        self.ED = EncyclopediaData
+        self.searchstring = searchstring
 
-    def getsearchresults(self,searchstring):
-        searchresults = wikipedia.search(searchstring)
-        return searchresults
+    def createarticlefromfirstsearchresult(self):
+        searchresults = wikipedia.search(self.searchstring)
+        if searchresults != []:
+            articletitle = searchresults[0].encode('ascii', 'ignore')
+            articlesummary = wikipedia.summary(articletitle).encode('ascii', 'ignore')
+            article = WikipediaArticle(articletitle,articlesummary,self.searchstring)
+            return article
+        else:
+            return None
 
-    def getfirstresultsummary(self,searchresults):
-        firstresult = searchresults[0]
-        summary = wikipedia.summary(firstresult)
-        return summary
+    def saveresult(self, article):
+        self.ED.insertwikidata(article.articletitle, article.articlesummary, article.searchstring)
 
-    def saveresult(self,articletitle,searchstring):
-        articlesummary = wikipedia.summary(articletitle)
-        self.ED.insertwikidata(articletitle,articlesummary,searchstring)
+    def getrelatedsavedresults(self):
+        savedresults = self.ED.getrelatedsavedwikiarticle(self.searchstring)
+        articles = []
+        for result in savedresults:
+            article = WikipediaArticle(result[0],result[1],result[2])
+            articles.append(article)
+        return articles
 
-    def getrelatedsavedresults(self,searchstring):
-        return self.ED.getspecificwikiarticle(searchstring)
+class WikipediaArticle:
 
-    def getsearchhistory(self):
-        allwikidata = self.ED.getallwikidata()
-        searchhistory = []
-        for articledata in allwikidata:
-            searchhistory.append(articledata[2])
-        print searchhistory
-        return searchhistory
+    def __init__(self, articletitle, articlesummary, searchstring):
+        self.articletitle = articletitle
+        self.articlesummary = articlesummary
+        self.searchstring = searchstring
 
-#Wiki = Wikipedia()
-#Wiki.ED.recreatetables()
-#firstresult = Wiki.getsearchresults("Freedom")[0]
-#Wiki.saveresult(firstresult,"Freedom")
-#Wiki.getsearchhistory()
+    def displayarticle(self):
+        displaystring = self.articletitle + '\n' + self.articlesummary
+        return displaystring
+
