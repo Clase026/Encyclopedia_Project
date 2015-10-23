@@ -60,8 +60,7 @@ class Interface(Frame):
         statuses = twittersearch.searchorloadtweets()
         tweetsarray = []
         for status in statuses:
-            tweetsarray.append((status.displaytweet()) + "\n")
-            tweetsarray.append("\n")
+            tweetsarray.append(("\n"+status.displaytweet()) + "\n")
         for i in tweetsarray:
             self.twittertext.insert(END,i)
     def clickQuitApp(self):

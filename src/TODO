@@ -20,9 +20,9 @@ stuff to do:
         expandable?
 
 - twitter
-    avoid retweets
-    remove usernames
-    set language/limit tweets
+    [x] avoid retweets
+    [] remove usernames
+    [] set language/limit tweets
 
 - error messages
     removal/try-except
