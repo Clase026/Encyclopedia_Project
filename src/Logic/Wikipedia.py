@@ -12,14 +12,16 @@ class WikipediaSearch:
 
     def createarticlefromfirstsearchresult(self):
         """Takes the first search result for the searchstring, and returns a wikipediaarticle"""
-        searchresults = wikipedia.search(self.searchstring)
-        if searchresults != []:
-            articletitle = searchresults[0].encode('ascii', 'ignore')
-            articlesummary = wikipedia.summary(articletitle).encode('ascii', 'ignore')
-            article = WikipediaArticle(articletitle,articlesummary,self.searchstring)
+        try:
+            searchresults = wikipedia.search(self.searchstring)
+            if searchresults != []:
+                articletitle = searchresults[0].encode('ascii', 'ignore')
+                articlesummary = wikipedia.summary(articletitle).encode('ascii', 'ignore')
+                article = WikipediaArticle(articletitle,articlesummary,self.searchstring)
+                return article
+        except:
+            article = WikipediaArticle("Disambiguation Error", "Please revise your request", "")
             return article
-        else:
-            return None
 
     def saveresult(self, article):
         self.ED.insertwikidata(article.articletitle, article.articlesummary, article.searchstring)

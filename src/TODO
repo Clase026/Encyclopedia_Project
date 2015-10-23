@@ -21,7 +21,7 @@ stuff to do:
 
 - twitter
     [x] avoid retweets
-    [] remove usernames
+    [x] remove usernames
     [] set language/limit tweets
 
 - error messages
