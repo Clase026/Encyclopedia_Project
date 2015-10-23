@@ -73,4 +73,4 @@ class TwitterStatus:
         self.username = username
 
     def displaytweet(self):
-        return self.username + ": " + self.text
+        return ": " + self.text
