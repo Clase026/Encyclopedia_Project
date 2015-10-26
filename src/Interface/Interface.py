@@ -27,6 +27,7 @@ class Interface(Frame):
         self.wikitext = Text(self)
         self.wikitext["height"] = 10
         self.wikitext["width"] = 50
+        self.wikitext.configure(state="disabled")
         self.wikitext.grid(row=1, column=0)
         self.wikiscroll = Scrollbar(self, orient=VERTICAL)
         self.wikiscroll.grid(row=1, column=1)
@@ -35,6 +36,7 @@ class Interface(Frame):
         self.twittertext = Text(self, wrap = NONE)
         self.twittertext["height"] = 10
         self.twittertext["width"] = 100
+        self.twittertext.configure(state="disabled")
         self.twittertext.grid(row=1,column=2)
         self.twitteryscroll = Scrollbar(self, orient=VERTICAL)
         self.twitteryscroll.grid(row=1,column=3)
@@ -50,6 +52,8 @@ class Interface(Frame):
         """Does a wiki and twitter search for the user's input, and then outputs the data to the two textboxes.
         Checks database first to see if there are any matching records before going to the APIs
         """
+        self.wikitext.configure(state="normal")
+        self.twittertext.configure(state="normal")
         self.wikitext.delete("1.0",END)
         self.twittertext.delete("1.0",END)
         self.searchquery = self.txtsearchquery.get()
@@ -61,8 +65,10 @@ class Interface(Frame):
         tweetsstring = ""
         for status in statuses:
             tweetsstring += (status.displaytweet()) + "\n"
-
         self.twittertext.insert(END,tweetsstring)
+        self.wikitext.configure(state="disabled")
+        self.twittertext.configure(state="disabled")
+
 
     def clickQuitApp(self):
         self.quit()

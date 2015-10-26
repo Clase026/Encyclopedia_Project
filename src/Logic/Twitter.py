@@ -24,9 +24,10 @@ class TwitterSearch:
     def dosearch(self):
         """Searches for tweets matching the searchstring"""
         tweets = []
-        for status in self.api.search(q=self.searchstring, count=10):
-            asciitweet = TwitterStatus(status.user.name.encode('ascii', 'ignore'), status.text.encode('ascii', 'ignore'),self.searchstring)
-            tweets.append(asciitweet)
+        for status in self.api.search(q=self.searchstring, count=20):
+            if not (hasattr(status, 'retweeted_status') or hasattr(status, 'quoted_status')):
+                asciitweet = TwitterStatus(status.user.name.encode('ascii', 'ignore'), status.text.encode('ascii', 'ignore'),self.searchstring)
+                tweets.append(asciitweet)
         self.savesearchresults(tweets)
         return tweets
 
@@ -60,4 +61,4 @@ class TwitterStatus:
         self.username = username
 
     def displaytweet(self):
-        return self.username + ": " + self.text
+        return self.text
