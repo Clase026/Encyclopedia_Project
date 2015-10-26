@@ -1,6 +1,7 @@
 __author__ = '?'
 
 import tweepy
+import sys
 import ConfigParser
 import src.Database.EncyclopiaData
 
@@ -44,8 +45,11 @@ class TwitterSearch:
             return atweet
 
     def savesearchresults(self, tweets):
-        for tweet in tweets:
-            self.EncyclopediaData.inserttwitterdata(tweet.username, tweet.text, tweet.searchstring)
+        try:
+            for tweet in tweets:
+                self.EncyclopediaData.inserttwitterdata(tweet.username, tweet.text, tweet.searchstring)
+        except Exception, e:
+              print("Error: " + str(e))
 
     def getrelatedsavedtweets(self):
         """Gets tweets matching the searchstring from the database"""

@@ -25,7 +25,7 @@ stuff to do:
     [] set language/limit tweets
 
 - error messages
-    removal/try-except
+    [x] removal/try-except
     Insecure platform warning
 
 - validation
