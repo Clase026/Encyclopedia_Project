@@ -1,7 +1,6 @@
 __author__ = '?'
 
 import tweepy
-import sys
 import ConfigParser
 import src.Database.EncyclopiaData
 
@@ -25,31 +24,15 @@ class TwitterSearch:
     def dosearch(self):
         """Searches for tweets matching the searchstring"""
         tweets = []
-        while(len(tweets) < 10):
-            for status in self.api.search(q=self.searchstring):
-                twitterUser = status.user.name.encode('ascii', 'ignore')
-                twitterText = status.text.encode('ascii', 'ignore')
-                searchString = self.searchstring
-                asciitweet = TwitterStatus(twitterUser, twitterText, searchString)
-                possibleTweet = self.checktweets(asciitweet, tweets)
-                tweets.append(possibleTweet)
+        for status in self.api.search(q=self.searchstring, count=10):
+            asciitweet = TwitterStatus(status.user.name.encode('ascii', 'ignore'), status.text.encode('ascii', 'ignore'),self.searchstring)
+            tweets.append(asciitweet)
         self.savesearchresults(tweets)
         return tweets
 
-    def checktweets(self, atweet, tweets):
-        try:
-            for tweet in tweets:
-                if tweet.text != atweet.text:
-                    tweets.append(atweet)
-        except:
-            return atweet
-
     def savesearchresults(self, tweets):
-        try:
-            for tweet in tweets:
-                self.EncyclopediaData.inserttwitterdata(tweet.username, tweet.text, tweet.searchstring)
-        except Exception, e:
-              print("Error: " + str(e))
+        for tweet in tweets:
+            self.EncyclopediaData.inserttwitterdata(tweet.username, tweet.text, tweet.searchstring)
 
     def getrelatedsavedtweets(self):
         """Gets tweets matching the searchstring from the database"""
@@ -77,4 +60,4 @@ class TwitterStatus:
         self.username = username
 
     def displaytweet(self):
-        return ": " + self.text
+        return self.username + ": " + self.text

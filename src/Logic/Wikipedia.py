@@ -10,18 +10,31 @@ class WikipediaSearch:
         self.ED = EncyclopediaData
         self.searchstring = searchstring
 
-    def createarticlefromfirstsearchresult(self):
-        """Takes the first search result for the searchstring, and returns a wikipediaarticle"""
+    def getarticletitleoptions(self):
+        searchresults = []
         try:
-            searchresults = wikipedia.search(self.searchstring)
-            if searchresults != []:
-                articletitle = searchresults[0].encode('ascii', 'ignore')
-                articlesummary = wikipedia.summary(articletitle).encode('ascii', 'ignore')
-                article = WikipediaArticle(articletitle,articlesummary,self.searchstring)
-                return article
-        except:
-            article = WikipediaArticle("Disambiguation Error", "Please revise your request", "")
-            return article
+            searchresults = [wikipedia.WikipediaPage(self.searchstring).title]
+        except wikipedia.exceptions.DisambiguationError as e:
+            searchresults = e.options
+        return searchresults
+
+    def disambiguatetitle(self,title):
+        try:
+            disambiguatedtitle = wikipedia.WikipediaPage(title).title
+        except wikipedia.exceptions.DisambiguationError as e:
+            disambiguatedtitle = self.disambiguatetitle(e.options[0])
+        return disambiguatedtitle
+
+    def getarticlefromtitle(self,title):
+        """Takes the first search result for the searchstring, and returns a wikipediaarticle"""
+        print title
+        disambiguatedtitle = self.disambiguatetitle(title)
+        article = wikipedia.WikipediaPage(disambiguatedtitle)
+        articletitle = article.title #.encode('ascii', 'ignore')
+        articlesummary = article.summary #.encode('ascii', 'ignore')
+        article = WikipediaArticle(articletitle,articlesummary,self.searchstring)
+        return article
+
 
     def saveresult(self, article):
         self.ED.insertwikidata(article.articletitle, article.articlesummary, article.searchstring)
@@ -39,7 +52,8 @@ class WikipediaSearch:
         """Checks the database for related articles, and only hits the api if it doesn't find anything"""
         articles = None
         if self.getrelatedsavedresults() == []:
-            article = self.createarticlefromfirstsearchresult()
+            articletitle = self.getarticletitleoptions()[0]
+            article = self.getarticlefromtitle(articletitle)
             self.saveresult(article)
             articles = [article]
         else:
