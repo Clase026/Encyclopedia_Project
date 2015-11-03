@@ -27,7 +27,7 @@ class WikipediaSearch:
 
     def getarticlefromtitle(self,title):
         """Takes the first search result for the searchstring, and returns a wikipediaarticle"""
-        print title
+        # print title
         disambiguatedtitle = self.disambiguatetitle(title)
         article = wikipedia.WikipediaPage(disambiguatedtitle)
         articletitle = article.title #.encode('ascii', 'ignore')

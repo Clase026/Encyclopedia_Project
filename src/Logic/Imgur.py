@@ -9,10 +9,11 @@ from urllib2 import parse_http_list
 
 class ImgurSearch:
 
-    def __init__(self, EncyclopediaData, searchstring):
-        self.ED = EncyclopediaData
-        self.searchstring = searchstring
+    # def __init__(self, EncyclopediaData, searchstring):
+    def __init__(self, searchstring):
+        # self.ED = EncyclopediaData
         self.client = self.setupclient()
+        self.searchstring = searchstring
 
     def setupclient(self):
         config = ConfigParser.ConfigParser()
@@ -23,17 +24,12 @@ class ImgurSearch:
         return client
 
     def dosearch(self):
-        items = self.client.gallery_search(q=self.searchstring)
-        for item in items:
-            print item.link
-            url = item.link
-            #TODO: Learn how to deal with JSON
-            #http://stackoverflow.com/questions/12903938/downloading-file-from-imgur-using-python-directly-via-url
-            r = requests.get(url)
-            img_url = r.json["image"]["links"]["original"]
-            #fn = posixpath.basename(urllib2.parse.urlsplit(img_url).path)
-
-            r = requests.get(img_url)
-            with open(img_url, "wb") as f:
-                f.write(r.content)
-
+        links = []
+        pics = self.client.gallery_search(self.searchstring, advanced=None, sort='top', window='all', page=0)
+        for p in pics:
+            if len(links) < 10:
+                if not ".gif" in p.link:
+                    links.append(p.link)
+            else:
+                break
+        return links

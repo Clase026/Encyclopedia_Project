@@ -4,7 +4,7 @@ stuff to do:
     GUI
     text boxes
 
-- dismbiguate wikipedia searches
+- [x]disambiguate wikipedia searches
 
 - **Get Pictures from Imgur**
     maintain image size overall
@@ -30,3 +30,8 @@ stuff to do:
 
 - validation
     ensure there is data to search.
+
+- mobile
+    QTPY
+    KIVY
+
