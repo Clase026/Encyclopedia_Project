@@ -23,6 +23,7 @@ parts/
 sdist/
 var/
 /src/EncyclopediaData
+EncyclopediaData.sqlite3
 /src/config.ini
 *.egg-info/
 .installed.cfg
