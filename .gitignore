@@ -25,6 +25,7 @@ var/
 /src/EncyclopediaData
 EncyclopediaData.sqlite3
 /src/config.ini
+config.ini
 *.egg-info/
 .installed.cfg
 *.egg

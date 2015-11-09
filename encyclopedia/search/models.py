@@ -1,7 +1,7 @@
 from django.db import models
 
 import ConfigParser
-from imgurpython import *
+import imgurpython
 import posixpath
 import requests
 from urllib2 import parse_http_list
@@ -10,32 +10,29 @@ from urllib2 import parse_http_list
 #
 #   Imgur API integration
 #
-class ImgurSearch:
-
-    # def __init__(self, EncyclopediaData, searchstring):
-    def __init__(self, searchstring):
-        # self.ED = EncyclopediaData
-        self.client = self.setupclient()
-        self.searchstring = searchstring
-
-    def setupclient(self):
+class ImgurClient:
+    def __init__(self):
         config = ConfigParser.ConfigParser()
         config.read('config.ini')
         APIKey = config.get('ImgurKeys','APIKey')
         APISecret = config.get('ImgurKeys','APISecret')
-        client = ImgurClient(APIKey, APISecret)
-        return client
+        self.client = imgurpython.ImgurClient(APIKey, APISecret)
 
-    def dosearch(self):
-        links = []
-        pics = self.client.gallery_search(self.searchstring, advanced=None, sort='top', window='all', page=0)
-        for p in pics:
-            if len(links) < 10:
-                if not ".gif" in p.link:
-                    links.append(p.link)
+    def search(self, string):
+        images = []
+        search_results = self.client.gallery_search(string, advanced=None, sort='top', window='all', page=0)
+        for result in search_results:
+            if len(images) < 10:
+                if not '.gif' in result.link:
+                    images.append(ImgurResult(string, result.link))
             else:
                 break
-        return links
+        return images
+
+
+class ImgurResult:
+    def __init__(self, search_string, url):
+        self.url = url
 
 
 #
