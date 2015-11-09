@@ -15,6 +15,9 @@ class Search(models.Model):
     search_string = models.CharField(max_length=255)
     date = models.DateField()
 
+    def __str__(self):
+        return self.search_string
+
 
 #
 #   Image
@@ -23,6 +26,9 @@ class Search(models.Model):
 class Image(models.Model):
     url = models.CharField(max_length=255)
     search = models.ForeignKey(Search)
+
+    def __str__(self):
+        return self.url
 
 
 #
@@ -34,6 +40,12 @@ class Tweet(models.Model):
     username = models.CharField(max_length=255)
     search = models.ForeignKey(Search)
 
+    def __str__(self):
+        return self.username + '\n' + self.message
+
+    def for_display(self):
+        return [self.username, self.message]
+
 
 #
 #   Article
@@ -43,3 +55,9 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     summary = models.TextField()
     search = models.ForeignKey(Search)
+
+    def __str__(self):
+        return self.title + '\n' + self.summary
+
+    def for_display(self):
+        return [self.title, self.summary]
