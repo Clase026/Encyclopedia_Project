@@ -1,11 +1,5 @@
 from django.db import models
 
-import ConfigParser
-import imgurpython
-import posixpath
-import requests
-from urllib2 import parse_http_list
-
 
 #
 #   Search
