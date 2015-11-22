@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 from django.core.urlresolvers import reverse
 from .models import Search, Image, Tweet, Article
 
@@ -10,6 +10,11 @@ class SearchCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('search', kwargs={'pk':self.object.pk})
+
+
+class SearchListView(ListView):
+    model = Search
+    template_name = 'list.html'
 
 
 class SearchDetailView(DetailView):

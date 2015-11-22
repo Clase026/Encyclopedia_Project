@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from apps.search.views import SearchCreateView, SearchDetailView
+from apps.search.views import SearchCreateView, SearchDetailView, SearchListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', SearchCreateView.as_view(), name='new_search'),
+    url(r'^search/$', SearchListView.as_view(), name='search_list'),
     url(r'^search/(?P<pk>\d+)$', SearchDetailView.as_view(), name='search')
 ]

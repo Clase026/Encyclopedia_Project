@@ -60,6 +60,10 @@ class Article(models.Model):
 
 @receiver(post_save, sender=Search)
 def do_search(sender, instance, created, **kwargs):
+    """
+    Performs the actual search after creating a new search object, pulling data from
+    Twitter, Wikipedia, and Imgur.
+    """
     if created:
         #  Get twitter
         twitter_results = TwitterClient().search(instance.search_string)

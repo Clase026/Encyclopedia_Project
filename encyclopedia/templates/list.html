@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Little Encyclopedia</title>
+    <title>Today's Searches | Little Encyclopedia</title>
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Scripts -->
@@ -23,19 +23,16 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <form class="form" action="" method="post">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <input name="search_string" placeholder="Enter something to search for..." type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <br>
-                </form>
-                <p class="text-center"><a href="/search">View today's searches</a></p>
+                <h2>Searches for {{ object_list.0.date }}</h2>
+                <p><a href="/">Back to search</a></p>
+
+                <ul>
+                    {% for search in object_list %}
+                    <li>
+                        <a href="/search/{{ search.id }}">{{ search.search_string }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
