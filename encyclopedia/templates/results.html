@@ -30,7 +30,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-6">
-                <h3>Images</h3>
+                <h3>Imgur</h3>
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
@@ -71,7 +71,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <h3>#{{ search.search_string }}</h3>
-                <p>A bunch of tweets</p>
+                {% for tweet in tweets %}
+                    <h5>{{ tweet.username }}</h5>
+                    <p>{{ tweet.message }}</p>
+                    <hr>
+                {% endfor %}
             </div>
         </div>
     </div>

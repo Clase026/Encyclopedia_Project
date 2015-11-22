@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from .clients import TwitterClient
 
 
 #
@@ -33,6 +36,7 @@ class Tweet(models.Model):
     message = models.TextField()
     username = models.CharField(max_length=255)
     search = models.ForeignKey(Search)
+    created_at = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.username + '\n' + self.message
@@ -55,3 +59,15 @@ class Article(models.Model):
 
     def for_display(self):
         return [self.title, self.summary]
+
+
+@receiver(post_save, sender=Search)
+def do_search(sender, instance, created, **kwargs):
+    if created:
+        #  Get twitter
+        twitter = TwitterClient()
+        twitter_results = twitter.search(instance.search_string)
+        for tweet in twitter_results:
+            new_tweet = Tweet(message=tweet.text, username=tweet.user.name,
+                              created_at=tweet.created_at, search=instance)
+            new_tweet.save()

@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -21,6 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_)9dg3sd&-#9d!y-5^23ufsngpb+&n0*+=0&ohg_nkzvktwb#6'
+
+TWITTER_KEY = os.environ.get("TWITTER_KEY")
+TWITTER_SECRET = os.environ.get("TWITTER_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
