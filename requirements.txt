@@ -4,3 +4,5 @@ ConfigParser
 imgurpython
 django
 python-dotenv
+psycopg2
+dj-database-url
