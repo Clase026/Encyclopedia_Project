@@ -7,7 +7,7 @@ from django.db import models
 #
 class Search(models.Model):
     search_string = models.CharField(max_length=255)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.search_string

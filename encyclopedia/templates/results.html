@@ -22,23 +22,10 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <form class="form">
-                    <div class="input-group">
-                        <input name="search" placeholder="Enter something to search for..." type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <br>
-                </form>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-xs-12">
-                <h2>Results for search_string</h2>
+                <h2>Results for {{ search.search_string }}</h2>
+                <p>Searched on {{ search.date }}</p>
+                <p><a href="/">Back to search</a></p>
             </div>
         </div>
         <div class="row">
@@ -83,7 +70,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <h3>#search_string</h3>
+                <h3>#{{ search.search_string }}</h3>
                 <p>A bunch of tweets</p>
             </div>
         </div>
