@@ -9,7 +9,7 @@ from .clients import TwitterClient, WikipediaClient, ImgurClient
 #   Referenced by images, tweets, and articles.
 #
 class Search(models.Model):
-    search_string = models.CharField(max_length=255)
+    search_string = models.CharField(max_length=255, unique=True)
     date = models.DateField(auto_now_add=True)
 
     def __unicode__(self):
