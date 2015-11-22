@@ -64,13 +64,15 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6">
-                <h3>wikipedia article title</h3>
-                <p>wikipedia article summary</p>
+                <h3>{{ article.title }}</h3>
+                <p><a href="{{article.url}}" target="_blank">View full article</a></p>
+                <p>{{ article.summary }}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12">
                 <h3>#{{ search.search_string }}</h3>
+                <hr>
                 {% for tweet in tweets %}
                     <h5>{{ tweet.username }}</h5>
                     <p>{{ tweet.message }}</p>

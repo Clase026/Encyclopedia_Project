@@ -1,8 +1,10 @@
 from django.conf import settings
 import tweepy
+import wikipedia
 
 
 class TwitterClient:
+    """Uses tweepy + Twitter API to get tweet data. Requires authentication."""
 
     def __init__(self):
         self.auth = self.get_auth()
@@ -25,3 +27,15 @@ class TwitterClient:
             else:
                 break
         return tweets
+
+
+class WikipediaClient:
+    """Gets Wikipedia information. No auth."""
+
+    def search(self, search_string):
+        try:
+            article = wikipedia.WikipediaPage(search_string)
+            return article
+        except wikipedia.exceptions.DisambiguationError as e:
+            article = self.search(e.options[0])
+            return article
