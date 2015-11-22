@@ -20,4 +20,5 @@ class SearchDetailView(DetailView):
         context = super(SearchDetailView, self).get_context_data(**kwargs)
         context['tweets'] = Tweet.objects.filter(search=kwargs['object'])
         context['article'] = Article.objects.filter(search=kwargs['object'])[0]
+        context['images'] = Image.objects.filter(search=kwargs['object'])
         return context

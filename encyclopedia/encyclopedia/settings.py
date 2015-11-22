@@ -24,10 +24,13 @@ load_dotenv(dotenv_path)
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_)9dg3sd&-#9d!y-5^23ufsngpb+&n0*+=0&ohg_nkzvktwb#6'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 TWITTER_KEY = os.environ.get("TWITTER_KEY")
 TWITTER_SECRET = os.environ.get("TWITTER_SECRET")
+
+IMGUR_KEY = os.environ.get("IMGUR_KEY")
+IMGUR_SECRET = os.environ.get("IMGUR_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .clients import TwitterClient, WikipediaClient
+from .clients import TwitterClient, WikipediaClient, ImgurClient
 
 
 #
@@ -22,6 +22,8 @@ class Search(models.Model):
 #
 class Image(models.Model):
     url = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True)
+    description = models.TextField(null=True)
     search = models.ForeignKey(Search)
 
     def __str__(self):
@@ -60,16 +62,21 @@ class Article(models.Model):
 def do_search(sender, instance, created, **kwargs):
     if created:
         #  Get twitter
-        twitter = TwitterClient()
-        twitter_results = twitter.search(instance.search_string)
+        twitter_results = TwitterClient().search(instance.search_string)
         for tweet in twitter_results:
             new_tweet = Tweet(message=tweet.text, username=tweet.user.name,
                               created_at=tweet.created_at, search=instance)
             new_tweet.save()
 
         # Get wikipedia
-        wikipedia = WikipediaClient()
-        wiki_result = wikipedia.search(instance.search_string)
+        wiki_result = WikipediaClient().search(instance.search_string)
         new_article = Article(title=wiki_result.title, summary=wiki_result.summary,
                               url=wiki_result.url, search=instance)
         new_article.save()
+
+        # Get imgur
+        imgur_results = ImgurClient().search(instance.search_string)
+        for image in imgur_results:
+            new_image = Image(title=image.title, url=image.link,
+                              description=image.description, search=instance)
+            new_image.save()

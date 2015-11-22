@@ -8,6 +8,20 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .carousel-inner>.item {
+            text-align: center;
+            height: 350px;
+        }
+        .carousel-inner>.item>img {
+            text-align: center;
+            margin: 0 auto;
+            max-height: 350px;
+        }
+        .carousel>.carousel-inner {
+            background: #000;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,22 +48,21 @@
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        {% for image in images %}
+                        <li data-target="#carousel-example-generic"
+                            data-slide-to="{{ forloop.counter0 }}"
+                            {% if forloop.first %}class="active"{% endif %}></li>
+                        {% endfor %}
                     </ol>
 
                   <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="//placehold.it/600x300">
+                        {% for image in images %}
+                        <div class="item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.url }}" alt="{{ image.title }}">
+                            <div class="carousel-caption">{{image.title}}</div>
                         </div>
-                        <div class="item">
-                            <img src="//placehold.it/600x300">
-                        </div>
-                        <div class="item">
-                            <img src="//placehold.it/600x300">
-                        </div>
+                        {% endfor %}
                     </div>
 
                   <!-- Controls -->
@@ -74,7 +87,7 @@
                 <h3>#{{ search.search_string }}</h3>
                 <hr>
                 {% for tweet in tweets %}
-                    <h5>{{ tweet.username }}</h5>
+                    <h5>{{ tweet.username }} | <em>{{tweet.created_at}}</em></h5>
                     <p>{{ tweet.message }}</p>
                     <hr>
                 {% endfor %}

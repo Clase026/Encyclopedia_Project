@@ -1,6 +1,7 @@
 from django.conf import settings
 import tweepy
 import wikipedia
+import imgurpython
 
 
 class TwitterClient:
@@ -39,3 +40,19 @@ class WikipediaClient:
         except wikipedia.exceptions.DisambiguationError as e:
             article = self.search(e.options[0])
             return article
+
+
+class ImgurClient:
+    """Gets images from Imgur using imgurpython. Requires authentication."""
+    def __init__(self):
+        self.client = imgurpython.ImgurClient(settings.IMGUR_KEY, settings.IMGUR_SECRET)
+
+    def search(self, search_string):
+        images = []
+        results = self.client.gallery_search(search_string)
+        for image in results:
+            if len(images) < 10 and not image.nsfw:
+                images.append(image)
+            else:
+                break
+        return images
