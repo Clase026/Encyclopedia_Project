@@ -22,7 +22,7 @@ class SearchCreateView(CreateView):
         if len(searches) > 0:
             search = searches[0]
             if search.date < datetime.date.today():
-                search.destroy()
+                search.delete()
                 search = Search(search_string=form.data['search_string'])
                 search.save()
             return redirect('search', pk=search.id)
